@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 # visualizer.py
 
+=======
+>>>>>>> d097e19fe20eacddd8a2556d2c0595dad21618d6
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import numpy as np
@@ -12,7 +15,11 @@ class Visualizer:
         plt.ion()
         self.fig, self.ax = plt.subplots(figsize=(CONFIG['grid_width']/2.5, CONFIG['grid_height']/2.5))
 
+<<<<<<< HEAD
     def draw(self, robot, global_path, local_planner, new_obstacle_info):
+=======
+    def draw(self, robot, global_path, local_planner, new_obstacle_pos):
+>>>>>>> d097e19fe20eacddd8a2556d2c0595dad21618d6
         self.ax.cla()
         
         # Draw Map and Obstacles
@@ -23,11 +30,16 @@ class Visualizer:
                     color = CONFIG['colors']['wall'] if is_wall else CONFIG['colors']['static_obstacle']
                     rect = patches.Rectangle((x, y), 1, 1, facecolor=color)
                     self.ax.add_patch(rect)
+<<<<<<< HEAD
         
         # [수정됨] 사각형 장애물을 그리는 로직
         if new_obstacle_info:
             x, y, w, h = new_obstacle_info
             rect = patches.Rectangle((x, y), w, h, facecolor=CONFIG['colors']['new_obstacle'])
+=======
+        if new_obstacle_pos:
+            rect = patches.Rectangle(new_obstacle_pos, 1, 1, facecolor=CONFIG['colors']['new_obstacle'])
+>>>>>>> d097e19fe20eacddd8a2556d2c0595dad21618d6
             self.ax.add_patch(rect)
 
         # Draw Paths
@@ -72,4 +84,8 @@ class Visualizer:
             end_x = start_x + dist * np.cos(robot.theta + angle_offset)
             end_y = start_y + dist * np.sin(robot.theta + angle_offset)
             color = colors['sensor_hit'] if dist < CONFIG['sensors']['range'] else colors['sensor_ray']
+<<<<<<< HEAD
             self.ax.plot([start_x, end_x], [start_y, end_y], color=color, alpha=0.8, lw=1)
+=======
+            self.ax.plot([start_x, end_x], [start_y, end_y], color=color, alpha=0.8, lw=1)
+>>>>>>> d097e19fe20eacddd8a2556d2c0595dad21618d6
