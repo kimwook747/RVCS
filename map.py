@@ -31,7 +31,6 @@ class Map:
             if self.grid[y, x] == 0:
                 self.grid[y, x] = 1
 
-<<<<<<< HEAD
     def add_rectangular_obstacle(self, start_x, start_y, width, height):
         """지정된 시작점과 크기로 사각형 장애물을 그리드에 추가합니다."""
         x_start, y_start = int(start_x), int(start_y)
@@ -42,8 +41,6 @@ class Map:
                 if 0 <= x < self.width and 0 <= y < self.height:
                     self.grid[y, x] = 1
 
-=======
->>>>>>> d097e19fe20eacddd8a2556d2c0595dad21618d6
     def add_obstacle(self, x, y):
         if 0 <= int(x) < self.width and 0 <= int(y) < self.height:
             self.grid[int(y), int(x)] = 1
