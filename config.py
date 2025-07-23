@@ -1,3 +1,5 @@
+# config.py
+
 import numpy as np
 
 CONFIG = {
@@ -16,6 +18,8 @@ CONFIG = {
         'robot': 'blue',
         'robot_arrow': 'white',
         'global_path_color': 'g',
+        'global_path_style': '--',
+        'detour_path_color': 'm',
         'robot_trail': 'r',
         'sensor_ray': 'orange',
         'sensor_hit': 'red',
@@ -32,7 +36,6 @@ CONFIG = {
             (np.deg2rad(-90), 0, 0),
         ]
     },
-    # [수정] 혼합 제어를 위한 PID 파라미터 재설정
     'pid': {
         'target_distance': 0.7, # 측면 장애물과 유지할 목표 거리
         'Kp': 1.5,              # 비례 게인 (반응 강도)

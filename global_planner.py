@@ -1,3 +1,5 @@
+# global_planner.py
+
 import numpy as np
 
 class GlobalPlanner:
@@ -15,7 +17,7 @@ class GlobalPlanner:
             x_coords = range(start_x, end_x, scan_direction)
             for x in x_coords:
                  if not self.map.is_obstacle(x, y):
-                     row_path.append((x + 0.5, y + 0.5))
+                    row_path.append((x, y))
 
             if not row_path: continue
             

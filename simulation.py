@@ -1,4 +1,4 @@
-# simulation.py (수정 완료된 전체 코드)
+# simulation.py
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -23,7 +23,7 @@ class Simulation:
             x, y, w, h = self.new_obstacle_info
             self.local_map.add_rectangular_obstacle(x, y, w, h)
 
-        start_pos = (1.5, 3.5)
+        start_pos = (1.0, 3.0)
         goal_pos = (CONFIG['grid_width'] - 1.5, CONFIG['grid_height'] - 1.5)
 
         self.robot = Robot(start_pos[0], start_pos[1])

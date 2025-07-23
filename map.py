@@ -1,3 +1,5 @@
+# map.py
+
 import numpy as np
 import os
 
@@ -5,7 +7,7 @@ class Map:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-        self.grid = np.zeros((height, width), dtype=int)
+        self.grid = np.zeros((height, width))
         self._add_walls()
 
     def _add_walls(self):
@@ -28,8 +30,8 @@ class Map:
     def _generate_random_obstacles(self, obstacle_count):
         for _ in range(obstacle_count):
             x, y = np.random.randint(2, self.width - 2), np.random.randint(2, self.height - 2)
-            if self.grid[y, x] == 0:
-                self.grid[y, x] = 1
+            # if self.grid[y, x] == 0:   # CHECK
+            self.grid[y, x] = 1
 
     def add_rectangular_obstacle(self, start_x, start_y, width, height):
         """지정된 시작점과 크기로 사각형 장애물을 그리드에 추가합니다."""
