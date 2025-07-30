@@ -4,10 +4,10 @@ import numpy as np
 import os
 
 class Map:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-        self.grid = np.zeros((height, width))
+    def __init__(self, config):
+        self.width = config['grid_width']
+        self.height = config['grid_height']
+        self.grid = np.zeros((self.height, self.width), dtype=int)
         self._add_walls()
 
     def _add_walls(self):
@@ -42,10 +42,6 @@ class Map:
             for x in range(x_start, x_start + w):
                 if 0 <= x < self.width and 0 <= y < self.height:
                     self.grid[y, x] = 1
-
-    def add_obstacle(self, x, y):
-        if 0 <= int(x) < self.width and 0 <= int(y) < self.height:
-            self.grid[int(y), int(x)] = 1
 
     def is_obstacle(self, x, y):
         x_int, y_int = int(x), int(y)

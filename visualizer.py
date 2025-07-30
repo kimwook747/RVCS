@@ -9,12 +9,17 @@ from config import CONFIG # config만 import하는 것은 괜찮습니다.
 class Visualizer:
     def __init__(self, sim_map):
         self.map = sim_map
+        self.config = CONFIG      
         plt.ion()
-        self.fig, self.ax = plt.subplots(figsize=(CONFIG['grid_width']/2, CONFIG['grid_height']/2))
+
+        map_config = self.config['map']  
+        self.fig, self.ax = plt.subplots(figsize=(map_config['grid_width']/2, map_config['grid_height']/2))
 
     def draw(self, robot, global_path, local_planner, new_obstacle_info):
         self.ax.cla()
-        colors = CONFIG['colors']
+        colors = self.config['colors']
+        map_config = self.config['map']
+        robot_config = self.config['robot']
 
         # 격자선 추가
         self.ax.grid(True, which='both', color='lightgray', linestyle='--', linewidth=0.5, alpha=0.7)
@@ -58,12 +63,12 @@ class Visualizer:
         self._draw_sensors(robot)
 
         # 로봇 그리기
-        robot_circle = patches.Circle(robot.pos, CONFIG['robot_radius'], facecolor=colors['robot'])
+        robot_circle = patches.Circle(robot.pos, robot_config['radius'], facecolor=colors['robot'])
         self.ax.add_patch(robot_circle)
         self.ax.arrow(robot.pos[0], robot.pos[1], 
-                      CONFIG['robot_radius'] * 1.5 * np.cos(robot.theta), 
-                      CONFIG['robot_radius'] * 1.5 * np.sin(robot.theta), 
-                      head_width=0.4, 
+                      robot_config['radius'] * 1.5 * np.cos(robot.theta), 
+                      robot_config['radius'] * 1.5 * np.sin(robot.theta), 
+                      head_width=0.4 * map_config.get('resolution', 1.0),
                       color=colors['robot_arrow'])
 
         # 플롯 설정
@@ -76,7 +81,7 @@ class Visualizer:
         plt.pause(0.001)
 
     def _draw_sensors(self, robot):
-        colors = CONFIG['colors']
+        colors = self.config['colors']
         for i, dist_cells in enumerate(robot.sensors.readings):
             spec = CONFIG['sensors']['specs'][i]
             angle_offset, x_offset_cells, y_offset_cells = spec
