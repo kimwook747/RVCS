@@ -1,7 +1,7 @@
-# robot.py
+# Robot.py
 
 import numpy as np
-from config import CONFIG
+from Config import CONFIG
 
 class Robot:
     class Sensor:

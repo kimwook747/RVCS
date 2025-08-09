@@ -1,5 +1,7 @@
+# LocalPlanner.py
+
 import numpy as np
-from config import CONFIG
+from Config import CONFIG
 
 class LocalPlanner:
     def __init__(self, robot, global_map, local_map, global_path):
@@ -49,10 +51,10 @@ class LocalPlanner:
         w_avoid = self._calculate_pd_correction()
 
         final_w = (self.pid_config['path_weight'] * w_path) + (self.pid_config['avoid_weight'] * w_avoid)
-        final_w = np.clip(final_w, -CONFIG['robot']['max_w'], CONFIG['robot']['max_w'])
+        final_w = np.clip(final_w, -CONFIG['robot_max_w'], CONFIG['robot_max_w'])
 
-        is_in_uturn_zone = (self.robot.pos[0] > CONFIG['map']['grid_width'] - 2 * CONFIG['map'].get('resolution', 1.0)) or \
-                          (self.robot.pos[0] < 2 * CONFIG['map'].get('resolution', 1.0))
+        is_in_uturn_zone = (self.robot.pos[0] > CONFIG['grid_width'] - 2 * CONFIG.get('resolution', 1.0)) or \
+                          (self.robot.pos[0] < 2 * CONFIG.get('resolution', 1.0))
         if is_in_uturn_zone:
             v_base *= 0.5
 
@@ -67,7 +69,7 @@ class LocalPlanner:
         if right_dist < CONFIG['sensors']['range']: error += (target_dist - right_dist)
         if left_dist < CONFIG['sensors']['range']: error -= (target_dist - left_dist)
         
-        derivative = (error - self.prev_error) / CONFIG['simulation']['dt']
+        derivative = (error - self.prev_error) / CONFIG['dt']
         self.prev_error = error
         
         w_correction = (self.pid_config['Kp'] * error) + (self.pid_config['Kd'] * derivative)
@@ -118,7 +120,7 @@ class LocalPlanner:
         self.detour_path = []
         for turn_dir in [1, -1]:
             temp_path = []
-            clearance = int(round(CONFIG['robot']['radius'] * 2.0))
+            clearance = int(round(CONFIG['robot_radius'] * 2.0))
             robot_grid = [int(round(self.robot.pos[0])), int(round(self.robot.pos[1]))]
             
             p1_grid = list(robot_grid)
@@ -127,7 +129,7 @@ class LocalPlanner:
             temp_path.append(tuple(p1_grid))
             
             p_exit_buffer_grid = list(last_obstacle_grid)
-            p_exit_buffer_grid[dominant_axis_idx] += scan_direction * int(round(CONFIG['robot']['radius'] * 2))
+            p_exit_buffer_grid[dominant_axis_idx] += scan_direction * int(round(CONFIG['robot_radius'] * 2))
             p2_grid = list(p1_grid)
             p2_grid[dominant_axis_idx] = p_exit_buffer_grid[dominant_axis_idx]
             if self.local_map.is_obstacle(p2_grid[0], p2_grid[1]): continue
@@ -165,8 +167,8 @@ class LocalPlanner:
     def calculate_vw_for_path(self, target_pos):
         angle_to_target = np.arctan2(target_pos[1] - self.robot.pos[1], target_pos[0] - self.robot.pos[0])
         angle_diff = (angle_to_target - self.robot.theta + np.pi) % (2 * np.pi) - np.pi
-        w = np.clip(angle_diff * 2.0, -CONFIG['robot']['max_w'], CONFIG['robot']['max_w'])
-        v = CONFIG['robot']['max_v']
+        w = np.clip(angle_diff * 2.0, -CONFIG['robot_max_w'], CONFIG['robot_max_w'])
+        v = CONFIG['robot_max_v']
         if abs(angle_diff) > np.deg2rad(45): v *= 0.5
         return v, w
 
